@@ -1,16 +1,22 @@
 package com.challenge.postman.tareas.presentation
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Card
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -22,24 +28,77 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.challenge.postman.common.domain.navigation.Screen
 import com.challenge.postman.common.presentation.ListViewModel
 import com.challenge.postman.tareas.data.entities.Tarea
 
 @Composable
 fun TareasScreen(
-    viewModel: ListViewModel
+    modifier: Modifier = Modifier,
+    viewModel: ListViewModel,
+    navController: NavController
 ) {
     val tareas by viewModel.allTareas.observeAsState()
+    val completadas = tareas?.filter { it.completado }
+    val pendientes = tareas?.filter { !it.completado }
+    val scrollState = rememberScrollState()
+    var mostrarCompletados by remember { mutableStateOf(true) }
 
-    LazyColumn {
-        if (!tareas.isNullOrEmpty()) {
-            items(tareas!!) { tarea ->
-                TareaItem(
-                    tarea = tarea,
-                    viewModel = viewModel
+    Column(
+        modifier = modifier
+            .padding(4.dp)
+            .verticalScroll(scrollState)
+    ) {
+        LazyColumn {
+            if (!pendientes.isNullOrEmpty()) {
+                items(pendientes) { tarea ->
+                    TareaItem(
+                        tarea = tarea,
+                        viewModel = viewModel,
+                        navController = navController
+                    )
+                }
+            }
+        }
+        if (!completadas.isNullOrEmpty()) {
+            HorizontalDivider(
+                modifier.height(8.dp)
+            )
+            Row(
+                modifier = modifier.align(Alignment.Start)
+            ) {
+                IconButton(
+                    onClick = { mostrarCompletados = !mostrarCompletados },
+                    modifier = modifier.padding(end = 4.dp)
+                ) {
+                    Icon(
+                        imageVector = if (mostrarCompletados) {
+                            Icons.Filled.KeyboardArrowDown
+                        } else {
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight
+                        },
+                        contentDescription = "Mostrar completados")
+                }
+                Text(
+                    text = "Completado ${completadas.size}"
                 )
+            }
+
+            if (mostrarCompletados) {
+                LazyColumn {
+                    items(completadas) { tarea ->
+                        TareaItem(
+                            tarea = tarea,
+                            viewModel = viewModel,
+                            navController = navController
+                        )
+                    }
+                }
             }
         }
     }
@@ -49,9 +108,14 @@ fun TareasScreen(
 fun TareaItem(
     modifier: Modifier = Modifier,
     tarea: Tarea,
-    viewModel: ListViewModel
+    viewModel: ListViewModel,
+    navController: NavController
 ) {
-    var checked by remember { mutableStateOf(false) }
+    val textStyle: TextStyle = if (tarea.completado) {
+        TextStyle(textDecoration = TextDecoration.LineThrough)
+    } else {
+        TextStyle()
+    }
 
     ElevatedCard(
         modifier = modifier
@@ -63,18 +127,20 @@ fun TareaItem(
         ) {
             Checkbox(
                 modifier = modifier.padding(end = 4.dp),
-                checked = checked,
+                checked = tarea.completado,
                 onCheckedChange = {
-                    checked = !checked
+                    viewModel.updateTarea(tarea.apply { completado = !completado })
                 }
             )
             Text(
                 text = tarea.titulo!!,
+                style = textStyle,
                 modifier = modifier
                     .align(Alignment.CenterVertically)
                     .fillMaxWidth()
                     .clickable {
-                        TODO()
+                        viewModel.seleccionarTarea(tarea)
+                        navController.navigate(Screen.Detalles.name)
                     }
             )
             IconButton(
