@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.challenge.postman.common.domain.navigation.Screen
 import com.challenge.postman.common.presentation.ListViewModel
 import com.challenge.postman.common.presentation.theme.PostmanTheme
+import com.challenge.postman.ordenes.presentation.OrdenesScreen
 import com.challenge.postman.tareas.presentation.AgregarTarea
 import com.challenge.postman.tareas.presentation.DetallesScreen
 import com.challenge.postman.tareas.presentation.TareasScreen
@@ -86,6 +87,9 @@ fun MainApp(
                 }
                 composable(Screen.AgregarTarea.name) {
                     AgregarTarea(viewModel = viewModel, navController = navController)
+                }
+                composable(Screen.Ordenes.name) {
+                    OrdenesScreen()
                 }
             }
         },
