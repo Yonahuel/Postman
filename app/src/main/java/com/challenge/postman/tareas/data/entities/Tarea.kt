@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Tarea(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     @ColumnInfo
-    var titulo: String?,
+    var titulo: String,
     @ColumnInfo
-    var descripcion: String?,
+    var descripcion: String,
     @ColumnInfo
     var completado: Boolean = false
 )

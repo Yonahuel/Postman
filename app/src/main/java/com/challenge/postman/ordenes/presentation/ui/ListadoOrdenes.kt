@@ -1,4 +1,4 @@
-package com.challenge.postman.ordenes.presentation
+package com.challenge.postman.ordenes.presentation.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.challenge.postman.common.domain.navigation.Screen
 import com.challenge.postman.ordenes.data.network.api_entities.Order
+import com.challenge.postman.ordenes.presentation.OrdenesViewModel
 
 @Composable
 fun ListadoOrdenes(
@@ -44,7 +45,7 @@ fun OrdenItem(
     ElevatedCard(
         onClick = {
             viewModel.getOrderDetails()
-            navController.navigate(Screen.DetallesOrden.name)
+            navController.navigate(Screen.DetallesOrden.route)
         },
         modifier = modifier
             .padding(4.dp)

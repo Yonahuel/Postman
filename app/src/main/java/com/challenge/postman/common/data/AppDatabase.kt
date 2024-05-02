@@ -9,7 +9,7 @@ import com.challenge.postman.tareas.data.TareaDao
 import javax.inject.Singleton
 
 @Singleton
-@Database(entities = [Tarea::class], version = 0)
+@Database(entities = [Tarea::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
     companion object {
         @Volatile

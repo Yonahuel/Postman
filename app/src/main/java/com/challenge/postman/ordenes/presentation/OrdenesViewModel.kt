@@ -28,14 +28,18 @@ class OrdenesViewModel @Inject constructor(
     private val _orderDetails = MutableLiveData<OrderCopyResponse>()
     val orderDetails: LiveData<OrderCopyResponse> = _orderDetails
 
+    private val apiKey = MutableLiveData<String>()
+
     init {
         activateLicense()
+        getTodayOrders()
     }
 
     private fun activateLicense() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = ordenesRepository.activateLicense()
             _licenseActivationResponse.postValue(response.value)
+            apiKey.postValue(response.value?.data?.activation?.apiKey)
         }
     }
 

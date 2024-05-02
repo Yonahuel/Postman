@@ -1,15 +1,12 @@
-package com.challenge.postman.tareas.presentation
+package com.challenge.postman.tareas.presentation.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Delete
@@ -32,9 +29,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.challenge.postman.common.domain.navigation.Screen
 import com.challenge.postman.tareas.data.entities.Tarea
+import com.challenge.postman.tareas.presentation.TareasViewModel
 
 @Composable
 fun TareasScreen(
@@ -45,13 +44,11 @@ fun TareasScreen(
     val tareas by viewModel.allTareas.observeAsState()
     val completadas = tareas?.filter { it.completado }
     val pendientes = tareas?.filter { !it.completado }
-    val scrollState = rememberScrollState()
     var mostrarCompletados by remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier
             .padding(4.dp)
-            .verticalScroll(scrollState)
     ) {
         LazyColumn {
             if (!pendientes.isNullOrEmpty()) {
@@ -66,14 +63,16 @@ fun TareasScreen(
         }
         if (!completadas.isNullOrEmpty()) {
             HorizontalDivider(
-                modifier.height(8.dp)
+                modifier.padding(top = 12.dp)
             )
             Row(
                 modifier = modifier.align(Alignment.Start)
             ) {
                 IconButton(
                     onClick = { mostrarCompletados = !mostrarCompletados },
-                    modifier = modifier.padding(end = 4.dp)
+                    modifier = modifier
+                        .padding(end = 4.dp)
+                        .align(Alignment.CenterVertically)
                 ) {
                     Icon(
                         imageVector = if (mostrarCompletados) {
@@ -84,7 +83,8 @@ fun TareasScreen(
                         contentDescription = "Mostrar completados")
                 }
                 Text(
-                    text = "Completado ${completadas.size}"
+                    text = "Completado ${completadas.size}",
+                    modifier = modifier.align(Alignment.CenterVertically)
                 )
             }
 
@@ -115,6 +115,7 @@ fun TareaItem(
     } else {
         TextStyle()
     }
+    var completadoState by remember { mutableStateOf(tarea.completado) }
 
     ElevatedCard(
         modifier = modifier
@@ -126,20 +127,22 @@ fun TareaItem(
         ) {
             Checkbox(
                 modifier = modifier.padding(end = 4.dp),
-                checked = tarea.completado,
+                checked = completadoState,
                 onCheckedChange = {
-                    viewModel.updateTarea(tarea.apply { completado = !completado })
+                    completadoState = !completadoState
+                    viewModel.updateTarea(tarea.apply { completado = completadoState })
                 }
             )
             Text(
-                text = tarea.titulo!!,
+                text = tarea.titulo,
+                fontSize = 22.sp,
                 style = textStyle,
                 modifier = modifier
                     .align(Alignment.CenterVertically)
-                    .fillMaxWidth()
+                    .weight(1f)
                     .clickable {
                         viewModel.seleccionarTarea(tarea)
-                        navController.navigate(Screen.DetallesTarea.name)
+                        navController.navigate(Screen.DetallesTarea.route)
                     }
             )
             IconButton(

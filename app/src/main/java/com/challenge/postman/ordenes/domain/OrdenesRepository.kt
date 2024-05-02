@@ -86,6 +86,6 @@ class OrdenesRepository {
         } else {
             "$tag - Error de red: ${exception.message}"
         }
-        _error.value = message
+        _error.postValue(message)
     }
 }

@@ -1,12 +1,16 @@
-package com.challenge.postman.tareas.presentation
+package com.challenge.postman.tareas.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -14,11 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.challenge.postman.common.domain.navigation.Screen
-import com.challenge.postman.tareas.data.entities.Tarea
+import com.challenge.postman.tareas.presentation.TareasViewModel
 
 @Composable
 fun AgregarTarea(
@@ -35,7 +40,6 @@ fun AgregarTarea(
     ) {
         Column(
             modifier = modifier
-                .fillMaxHeight()
                 .verticalScroll(scrollState)
         ) {
             TextField(
@@ -58,25 +62,29 @@ fun AgregarTarea(
             )
 
         }
-        IconButton(
+        Button(
             onClick = {
-                val tarea = Tarea(
+                viewModel.insertTarea(
                     titulo = titulo.value.text,
-                    descripcion = descripcion.value.text,
-                    completado = false
+                    descripcion = descripcion.value.text
                 )
-                viewModel.insertTarea(tarea)
                 titulo.value = TextFieldValue()
                 descripcion.value = TextFieldValue()
-                navController.navigate(Screen.Tareas.name)
+                navController.navigate(Screen.Tareas.route)
             },
             modifier = modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(vertical = 8.dp)
+                .padding(12.dp)
+                .wrapContentSize(),
+            colors = ButtonColors(
+                containerColor = Color.Blue,
+                contentColor = Color.White,
+                disabledContentColor = Color.White,
+                disabledContainerColor = Color.Blue
+            )
         ) {
             Text(
                 text = "Guardar",
-                modifier = modifier.padding(4.dp)
             )
         }
     }
