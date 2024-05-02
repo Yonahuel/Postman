@@ -13,5 +13,7 @@ data class Tarea(
     @ColumnInfo
     var descripcion: String,
     @ColumnInfo
-    var completado: Boolean = false
+    var completado: Boolean = false,
+    @ColumnInfo
+    var imagen: String
 )

@@ -1,7 +1,6 @@
 package com.challenge.postman.ordenes.presentation.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -23,7 +22,6 @@ fun DetallesOrdenes(
         GlideImage(
             model = url,
             contentDescription = "Imagen",
-            loading = { CircularProgressIndicator() }
         )
     }
 }
