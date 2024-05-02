@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
+    implementation(libs.androidx.runtime.livedata)
     // Compose navigation
     implementation(libs.androidx.navigation.compose)
     // Room
@@ -77,7 +77,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     // Glide
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.compose)
+    implementation(libs.glide)
+    //noinspection KaptUsageInsteadOfKsp
+    kapt(libs.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
