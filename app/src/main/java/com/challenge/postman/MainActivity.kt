@@ -1,5 +1,6 @@
 package com.challenge.postman
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -49,6 +50,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainApp(
@@ -89,7 +91,9 @@ fun MainApp(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ }
+                onClick = {
+                    navController.navigate(Screen.AgregarTarea.name)
+                }
             ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Agregar Tarea")
             }
