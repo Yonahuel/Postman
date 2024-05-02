@@ -1,4 +1,4 @@
-package com.challenge.postman.common.presentation
+package com.challenge.postman.common.presentation.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -21,6 +21,7 @@ fun MainAppBar(
 ) {
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination?.route
     val titulo = when(currentDestination) {
+        Screen.Home.route -> Screen.Home.title
         Screen.Tareas.route -> Screen.Tareas.title
         Screen.DetallesTarea.route -> Screen.DetallesTarea.title
         Screen.AgregarTarea.route -> Screen.AgregarTarea.title
@@ -34,7 +35,7 @@ fun MainAppBar(
             Text(text = titulo)
         },
         navigationIcon = {
-            if(currentDestination != Screen.Tareas.route) {
+            if(currentDestination != Screen.Home.route) {
                 IconButton(
                     onClick = {
                         navController.navigateUp()

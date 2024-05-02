@@ -47,8 +47,7 @@ fun TareasScreen(
     var mostrarCompletados by remember { mutableStateOf(true) }
 
     Column(
-        modifier = modifier
-            .padding(4.dp)
+        modifier = modifier.padding(4.dp)
     ) {
         LazyColumn {
             if (!pendientes.isNullOrEmpty()) {

@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.challenge.postman.common.presentation.ui.HomeScreen
 import com.challenge.postman.ordenes.presentation.OrdenesViewModel
 import com.challenge.postman.ordenes.presentation.ui.DetallesOrdenes
 import com.challenge.postman.ordenes.presentation.ui.ListadoOrdenes
@@ -25,9 +26,12 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Tareas.route,
+        startDestination = Screen.Home.route,
         modifier = modifier.padding(padding)
     ) {
+        composable(Screen.Home.route) {
+            HomeScreen(navController = navController)
+        }
         composable(Screen.Tareas.route) {
             TareasScreen(viewModel = tareasViewModel, navController = navController)
         }
