@@ -1,4 +1,4 @@
-package com.challenge.postman
+package com.challenge.postman.common.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -24,9 +24,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.challenge.postman.common.domain.navigation.Screen
-import com.challenge.postman.common.presentation.ListViewModel
+import com.challenge.postman.tareas.presentation.TareasViewModel
 import com.challenge.postman.common.presentation.theme.PostmanTheme
-import com.challenge.postman.ordenes.presentation.OrdenesScreen
+import com.challenge.postman.ordenes.presentation.DetallesOrdenes
+import com.challenge.postman.ordenes.presentation.ListadoOrdenes
+import com.challenge.postman.ordenes.presentation.OrdenesViewModel
 import com.challenge.postman.tareas.presentation.AgregarTarea
 import com.challenge.postman.tareas.presentation.DetallesScreen
 import com.challenge.postman.tareas.presentation.TareasScreen
@@ -35,7 +37,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel = ViewModelProvider(this)[ListViewModel::class.java]
+        val tareasViewModel = ViewModelProvider(this)[TareasViewModel::class.java]
+        val ordenesViewModel = ViewModelProvider(this)[OrdenesViewModel::class.java]
 
         enableEdgeToEdge()
         setContent {
@@ -43,7 +46,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainApp(
                         modifier = Modifier.padding(innerPadding),
-                        viewModel = viewModel
+                        tareasViewModel = tareasViewModel,
+                        ordenesViewModel = ordenesViewModel
                     )
                 }
             }
@@ -56,7 +60,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainApp(
     modifier: Modifier = Modifier,
-    viewModel: ListViewModel
+    tareasViewModel: TareasViewModel,
+    ordenesViewModel: OrdenesViewModel
 ) {
     val navController = rememberNavController()
 
@@ -80,16 +85,19 @@ fun MainApp(
         content = {
             NavHost(navController = navController, startDestination = Screen.Tareas.name) {
                 composable(Screen.Tareas.name) {
-                    TareasScreen(viewModel = viewModel, navController = navController)
+                    TareasScreen(viewModel = tareasViewModel, navController = navController)
                 }
-                composable(Screen.Detalles.name) {
-                    DetallesScreen(viewModel = viewModel, navController = navController)
+                composable(Screen.DetallesTarea.name) {
+                    DetallesScreen(viewModel = tareasViewModel, navController = navController)
                 }
                 composable(Screen.AgregarTarea.name) {
-                    AgregarTarea(viewModel = viewModel, navController = navController)
+                    AgregarTarea(viewModel = tareasViewModel, navController = navController)
                 }
                 composable(Screen.Ordenes.name) {
-                    OrdenesScreen()
+                    ListadoOrdenes(viewModel = ordenesViewModel, navController = navController)
+                }
+                composable(Screen.DetallesOrden.name) {
+                    DetallesOrdenes(viewModel = ordenesViewModel)
                 }
             }
         },

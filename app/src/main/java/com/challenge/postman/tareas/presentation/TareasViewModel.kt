@@ -1,4 +1,4 @@
-package com.challenge.postman.common.presentation
+package com.challenge.postman.tareas.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListViewModel @Inject constructor(
+class TareasViewModel @Inject constructor(
     application: Application,
     private val tareasRepository: TareasRepository
 ): AndroidViewModel(application) {

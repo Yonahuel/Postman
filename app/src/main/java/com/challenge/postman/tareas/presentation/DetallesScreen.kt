@@ -19,12 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.challenge.postman.common.domain.navigation.Screen
-import com.challenge.postman.common.presentation.ListViewModel
 
 @Composable
 fun DetallesScreen(
     modifier: Modifier = Modifier,
-    viewModel: ListViewModel,
+    viewModel: TareasViewModel,
     navController: NavController
 ) {
     val scrollState = rememberScrollState()

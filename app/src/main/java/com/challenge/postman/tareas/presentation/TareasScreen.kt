@@ -34,13 +34,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.challenge.postman.common.domain.navigation.Screen
-import com.challenge.postman.common.presentation.ListViewModel
 import com.challenge.postman.tareas.data.entities.Tarea
 
 @Composable
 fun TareasScreen(
     modifier: Modifier = Modifier,
-    viewModel: ListViewModel,
+    viewModel: TareasViewModel,
     navController: NavController
 ) {
     val tareas by viewModel.allTareas.observeAsState()
@@ -108,7 +107,7 @@ fun TareasScreen(
 fun TareaItem(
     modifier: Modifier = Modifier,
     tarea: Tarea,
-    viewModel: ListViewModel,
+    viewModel: TareasViewModel,
     navController: NavController
 ) {
     val textStyle: TextStyle = if (tarea.completado) {
@@ -140,7 +139,7 @@ fun TareaItem(
                     .fillMaxWidth()
                     .clickable {
                         viewModel.seleccionarTarea(tarea)
-                        navController.navigate(Screen.Detalles.name)
+                        navController.navigate(Screen.DetallesTarea.name)
                     }
             )
             IconButton(

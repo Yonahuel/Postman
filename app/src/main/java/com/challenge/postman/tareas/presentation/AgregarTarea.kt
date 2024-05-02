@@ -18,13 +18,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.challenge.postman.common.domain.navigation.Screen
-import com.challenge.postman.common.presentation.ListViewModel
 import com.challenge.postman.tareas.data.entities.Tarea
 
 @Composable
 fun AgregarTarea(
     modifier: Modifier = Modifier,
-    viewModel: ListViewModel,
+    viewModel: TareasViewModel,
     navController: NavController
 ) {
     val titulo = remember { mutableStateOf(TextFieldValue()) }
