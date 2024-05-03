@@ -13,6 +13,8 @@ import com.challenge.postman.tareas.data.entities.Tarea
 interface TareaDao {
     @Query("SELECT * FROM Tarea")
     fun getAll(): LiveData<List<Tarea>>
+    @Query("SELECT * FROM Tarea WHERE titulo = :tituloTarea")
+    fun getTareaByTitulo(tituloTarea: String): Tarea
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(tarea: Tarea)
     @Update

@@ -21,6 +21,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -50,6 +51,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+    }
 }
 
 dependencies {
@@ -78,11 +82,22 @@ dependencies {
     implementation(libs.converter.gson)
     // Glide
     implementation(libs.compose)
-    implementation(libs.glide)
-    //noinspection KaptUsageInsteadOfKsp
-    kapt(libs.compiler)
+
+    // Pruebas unitarias
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.hilt.android.testing.v244)
+    kaptTest(libs.hilt.android.compiler.v244)
+    // Pruebas de instrumentación
+    androidTestImplementation(libs.androidx.junit.v113)
+    androidTestImplementation(libs.androidx.espresso.core.v340)
+    androidTestImplementation(libs.androidx.espresso.contrib)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.android.compiler.v2405)
 
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestUtil(libs.androidx.orchestrator)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
