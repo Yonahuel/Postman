@@ -11,11 +11,13 @@ class TareasRepository(
 
     fun insertTarea(
         titulo: String,
-        descripcion: String
+        descripcion: String,
+        imagen: String
     ) {
         val tarea = Tarea(
             titulo = titulo,
             descripcion = descripcion,
+            imagen = imagen
         )
         dao.insert(tarea)
     }

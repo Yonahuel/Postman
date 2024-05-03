@@ -33,11 +33,13 @@ class TareasViewModel @Inject constructor(
 
     fun insertTarea(
         titulo: String,
-        descripcion: String
+        descripcion: String,
+        imagen: String = ""
     ) = viewModelScope.launch(Dispatchers.IO) {
         tareasRepository.insertTarea(
             titulo = titulo,
-            descripcion = descripcion
+            descripcion = descripcion,
+            imagen = imagen
         )
     }
 
@@ -57,7 +59,8 @@ class TareasViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             tareasRepository.insertTarea(
                 titulo = tarea.titulo,
-                descripcion = tarea.descripcion
+                descripcion = tarea.descripcion,
+                imagen = tarea.imagen
             )
         }
     }

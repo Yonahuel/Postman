@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -25,12 +26,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.challenge.postman.common.domain.navigation.Screen
 import com.challenge.postman.tareas.data.entities.Tarea
 import com.challenge.postman.tareas.presentation.TareasViewModel
@@ -102,6 +106,7 @@ fun TareasScreen(
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun TareaItem(
     modifier: Modifier = Modifier,
@@ -144,6 +149,12 @@ fun TareaItem(
                         navController.navigate(Screen.DetallesTarea.route)
                     }
             )
+            GlideImage(
+                model = tarea.imagen,
+                contentDescription = "Imagen",
+                contentScale = ContentScale.Crop,
+                modifier = modifier.size(40.dp)
+            )
             IconButton(
                 modifier = modifier
                     .align(Alignment.CenterVertically)
@@ -164,7 +175,8 @@ fun TareaItemPreview() {
     val tarea = Tarea(
         id = 0,
         titulo = "Nueva Tarea",
-        descripcion = "Descripción"
+        descripcion = "Descripción",
+        imagen = ""
     )
 
     //TareaItem(tarea = tarea)
